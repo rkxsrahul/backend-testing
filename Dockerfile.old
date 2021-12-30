@@ -1,0 +1,50 @@
+FROM golang:1.13 as golang
+MAINTAINER Gursimran Singh <singhgursimran@me.com>
+
+# Set go bin which doesn't appear to be set already.
+ENV GOBIN /go/bin
+ARG BUILD_ID
+ENV BUILD_IMAGE=$BUILD_ID
+ENV GO111MODULE=off
+
+# build directories
+ADD . /go/src/git.xenonstack.com/util/continuous-security-backend
+WORKDIR /go/src/git.xenonstack.com/util/continuous-security-backend
+
+# Go dep!
+#RUN go get -u github.com/golang/dep/...
+#RUN dep ensure -update
+
+RUN go install git.xenonstack.com/util/continuous-security-backend
+#ENTRYPOINT /go/bin/continuous-security-backend --conf=toml --file=/go/src/git.xenonstack.com/util/continuous-security-backend/continuous-security-backend.toml
+#ENTRYPOINT /go/bin/continuous-security-backend
+
+EXPOSE 8000
+
+# new build stage started and copy artifacts from previous stage
+#FROM python:3.7-stretch
+FROm nikolaik/python-nodejs:python3.7-nodejs13-stretch
+
+ARG BUILD_ID
+ENV BUILD_IMAGE=$BUILD_ID
+
+# install dependency packages
+RUN apt update; apt-get install -y nmap whois bsdmainutils dnsutils ldnsutils netcat
+RUN npm install wappalyzer -g
+# clone git repository
+RUN git clone https://github.com/drwetter/testssl.sh.git $HOME/testssl.sh; git clone https://github.com/meliot/shcheck.git $HOME/shcheck; git clone https://github.com/nixcraft/domain-check-2.git $HOME/domain-check
+
+#create folder to copy code from previous stage and executable from previous stage
+RUN mkdir -p /go/src/git.xenonstack.com/util/continuous-security-backend; mkdir -p /go/bin
+
+#set working directory
+WORKDIR /go/src/git.xenonstack.com/util/continuous-security-backend
+
+#copy code from previous stage
+COPY --from=golang  /go/src/git.xenonstack.com/util/continuous-security-backend /go/src/git.xenonstack.com/util/continuous-security-backend
+
+#copy executable file from previous stage
+COPY --from=golang /go/bin/continuous-security-backend  /go/bin/
+
+#liston on port
+EXPOSE 8000

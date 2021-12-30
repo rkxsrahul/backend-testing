@@ -1,0 +1,720 @@
+openapi: 3.0.1
+info:
+  title: AKIRAStack
+  description: >-
+    This is the API Documentation for the AkiraStack free check score
+  version: 1.0.0
+servers:
+  - url: 'https://continuous-security.secops.neuralcompany.team/api/security'
+components:
+  securitySchemes:
+    bearer:            
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+paths:
+  
+  /healthz:
+    get:
+      operationId: healthz
+      summary: check health of the service
+      responses:
+        '200':
+          description: connection successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+                  build:
+                    type: string
+        '500':
+          description: connection failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+                  build:
+                    type: string
+  /reload:
+    get:
+      operationId: reloadscript
+      summary: reload the script
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+                  build:
+                    type: string
+        '500':
+          description: connection failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+                  build:
+                    type: string
+                   
+  /v1/git-repos:
+    get:
+      tags:
+      - GitRepos
+      operationId: GitRepos
+      summary: Get list of Git repos of the user
+      responses:
+        '200':
+          description: connection successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: boolean
+                  repositories_count:
+                    type: integer
+                  repositories_data:
+                    type: array
+                    items:
+                     properties:
+                      full_name:
+                       type: string
+                      private:
+                       type: string
+                      html_url:
+                       type: string
+                      clone_url:
+                       type: string
+                      name:
+                       type: string
+        '500':
+          description: connection failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+      security:
+        - bearer: []
+  /v1/scan:
+    post:
+      tags:
+        - Free Check Scrore
+      operationId: defaultprivacy
+      summary: Scan the website for free check score
+      requestBody:
+        description: "enter email and website URL and name"
+        content:
+          application/json:
+            schema:
+              properties:
+                url:
+                  type: string
+                name:
+                  type: string
+                email:
+                  type: string
+      responses:
+        '400':
+          description: added successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+                 
+        '200':
+          description: when some error occur during
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: boolean
+                  error_message: 
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      uid:
+                        type: string
+                      ip:
+                        type: string
+                      agent:
+                        type: string
+                      timestamp:
+                        type: integer
+                      url:
+                        type: string
+                      name:
+                        type: string
+                      email:
+                        type: string
+                  info:
+                    type: object
+                    properties:
+                      url:
+                        type: string
+                      first_name:
+                        type: string
+                      last_name:
+                        type: string
+                      email:
+                        type: string
+                      
+  /v1/git-scan:
+    post:
+      tags:
+        - Free Check Scrore
+      summary: Scan the node URL
+      requestBody:
+        description: "enter github URL and name"
+        content:
+          application/json:
+            schema:
+              properties:
+                git_url:
+                  type: string
+                name:
+                  type: string
+                email:
+                  type: string
+                project_name:
+                  type: string
+                branch:
+                  type: string
+      responses:
+        '400':
+          description: added successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+                 
+        '200':
+          description: when some error occur during
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: boolean
+                  error_message:
+                    type: string
+                  info:
+                    type: object
+                    properties:
+                      uid:
+                        type: string
+                      ip:
+                        type: string
+                      agent:
+                        type: string
+                      timestamp:
+                        type: integer
+                      url:
+                        type: string
+                      name:
+                        type: string
+                      email:
+                        type: string
+                      workspace:
+                        type: string
+                      repo_lang: 
+                        type: string
+                      project_name:
+                        type: string
+                      branch:
+                        type: string
+                      
+  /v1/notification:
+    post:
+      tags:
+        - Free Check Scrore
+      operationId: notification
+      summary: Send notification for contact us
+      requestBody:
+        description: "enter email and website URL and name"
+        content:
+          application/json:
+            schema:
+              properties:
+                url:
+                  type: string
+                name:
+                  type: string
+                email:
+                  type: string
+      responses:
+        '200':
+          description: added successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+                 
+        '400':
+          description: when some error occur during
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+  /v1/git-result/{id}:
+    get:
+      tags:
+        - Free Check Scrore
+      operationId: getScrore
+      summary: fetch the result related to the Git URL on the basis on UID
+      parameters:
+        - name: id
+          in: path
+          description: uid - receive from the post api
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: boolean
+                    example: false
+                  uuid:
+                    type: string
+                  critical:
+                    type: integer
+                  high:
+                    type: integer
+                  medium:
+                    type: integer
+                  low:
+                    type: integer
+                  unknown:
+                    type: integer
+                  result:
+                    type: array
+                    items:
+                      properties:
+                        Class:
+                          type: string
+                        Target:
+                          type: string
+                        Type:
+                          type: string
+                        Vulnerabilities:
+                          type: array
+                          
+                             
+        '400':
+          description: could not fetch the records
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string                    
+                                         
+  /v1/result/{id}:
+    get:
+      tags:
+        - Free Check Scrore
+      summary: fetch the result related to the URL on the basis on UID
+      parameters:
+        - name: id
+          in: path
+          description: uid - receive from the post api
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+                  website_security:
+                    type: array
+                    items:
+                      properties:
+                        uid:
+                          type: string
+                        result:
+                          type: string
+                        command_name:
+                          type: string
+        '400':
+          description: could not fetch the records
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+  /v1/workspace/{emails}:
+     put:
+      tags:
+        - Free Check Scrore
+      summary: fetch the result related to the URL on the basis on UID
+      parameters:
+        - name: emails
+          in: path
+          description: uid - receive from the post api
+          schema:
+            type: string
+          required: true
+        - name: workspace
+          in: query
+          schema:
+            type: string
+      
+      responses:
+       '200':
+          description: could not fetch the records
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "workspace name update."
+       '400':
+          description: could not fetch the records
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+                  
+      security:
+        - bearer: []
+          
+  /v1/integrations/{id}:
+     get:
+      tags:
+        - Free Check Scrore
+      summary: fetch the result related to the URL on the basis on UID
+      parameters:
+        - name: id
+          in: path
+          description: uid - receive from the post api
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                        High:
+                          type: integer
+                        Low:
+                          type: integer
+                        Critical:
+                          type: integer
+                        Medium:
+                          type: integer
+                        Unknown:
+                          type: integer
+                        uid:
+                          type: string
+                        result:
+                          type: object
+                          properties:
+                            email_security:
+                             type: array
+                             items:
+                              properties:
+                                uid:
+                                 type: string
+                                result:
+                                 type: string
+                                command_name:
+                                 type: string
+                                method:
+                                 type: string
+                            email_security_loader:
+                              type: boolean
+                            error:
+                              type: string
+                            http_security:
+                              type: array
+                              items:
+                                properties:
+                                  uid:
+                                   type: string
+                                  result:
+                                   type: string
+                                  command_name:
+                                   type: string
+                                  method:
+                                   type: string
+                            http_security_loader:
+                              type: boolean
+                            message:
+                              type: string
+                            network_security:
+                              type: array
+                              items:
+                               properties:
+                                uid:
+                                 type: string
+                                result:
+                                 type: string
+                                command_name:
+                                 type: string
+                                method:
+                                 type: string
+                            network_security_loader:
+                              type: boolean
+                            score:
+                              type: integer
+                            website_security:
+                              type: array
+                              items:
+                               properties:
+                                uid:
+                                 type: string
+                                result:
+                                 type: string
+                                command_name:
+                                 type: string
+                                method:
+                                 type: string
+                            website_security_loader:
+                              type: string
+                        command_name:
+                          type: string
+                        method:
+                          type: string
+            
+        '400':
+          description: could not fetch the records
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+      security:
+        - bearer: []
+      
+  /v1/integrations:
+     get:
+      
+      tags:
+        - Free Check Scrore
+      summary: ""
+      parameters:
+        - name: workspace
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: boolean
+                    example: false
+                  total_vulnerabilities:
+                    type: integer
+                  critical:
+                    type: integer
+                  high:
+                    type: integer
+                  medium:
+                    type: integer
+                  low:
+                    type: integer
+                  total_projects:
+                    type: integer
+                  list:
+                    type: array
+                    items:
+                      properties:
+                        High:
+                          type: integer
+                        Low:
+                          type: integer
+                        Critical:
+                          type: integer
+                        Medium:
+                          type: integer
+                        Unknown:
+                          type: integer
+                        uid:
+                          type: string
+                        result:
+                          type: object
+                          properties:
+                            email_security:
+                             type: array
+                             items:
+                              properties:
+                                uid:
+                                 type: string
+                                result:
+                                 type: string
+                                command_name:
+                                 type: string
+                                method:
+                                 type: string
+                            email_security_loader:
+                              type: boolean
+                            error:
+                              type: string
+                            http_security:
+                              type: array
+                              items:
+                                properties:
+                                  uid:
+                                   type: string
+                                  result:
+                                   type: string
+                                  command_name:
+                                   type: string
+                                  method:
+                                   type: string
+                            http_security_loader:
+                              type: boolean
+                            message:
+                              type: string
+                            network_security:
+                              type: array
+                              items:
+                               properties:
+                                uid:
+                                 type: string
+                                result:
+                                 type: string
+                                command_name:
+                                 type: string
+                                method:
+                                 type: string
+                            network_security_loader:
+                              type: boolean
+                            score:
+                              type: integer
+                            website_security:
+                              type: array
+                              items:
+                               properties:
+                                uid:
+                                 type: string
+                                result:
+                                 type: string
+                                command_name:
+                                 type: string
+                                method:
+                                 type: string
+                            website_security_loader:
+                              type: string
+                        command_name:
+                          type: string
+                        method:
+                          type: string
+        '400':
+          description: could not fetch the records
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+                    
+                    
+                    
+                    
+                    
+      security:
+        - bearer: []
+    
+        
+  

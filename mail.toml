@@ -1,0 +1,13 @@
+[userNotification]
+  subject="Thanks for contacting us || MetaSecure"
+  template="./templates/user-notification.tmpl"
+  images=["./images/Page-1.png","./images/email-template-illustration.png","./images/facebook.png","./images/twitter.png","./images/linkedin.png"]
+[supportNotification]
+  subject="New User Visited to our website || MetaSecure"
+  template="./templates/support-notification.tmpl"
+  images=["./images/Page-1.png","./images/email-template-illustration.png","./images/facebook.png","./images/twitter.png","./images/linkedin.png"]
+[confirmationNotification]
+  subject="Thanks for using our service || MetaSecure"
+  template="./templates/support-notification.tmpl"
+  images=["./images/Page-1.png","./images/email-template-illustration.png","./images/facebook.png","./images/twitter.png","./images/linkedin.png"]
+

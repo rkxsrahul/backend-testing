@@ -1,0 +1,32 @@
+[Service]
+  Port = "8000"
+  Environment = "development"
+  RepoURL = "https://git.xenonstack.com/api/v4/projects/885/repository/archive.zip?sha=develop"
+  RepoPrivateKey = "xxxx"
+  Workspace="https://continuous-security.secops.neuralcompany.team/api/workspace"
+[Database]
+  name = ""
+  host = ""
+  port = ""
+  user = ""
+  pass = ""
+  ideal = "10"
+
+[NatsServer]
+  url = "demo.nats.io"
+  token = "xxxx"
+  username = "user"
+  password = "xxxx"
+[Mail]
+  Host = ""
+  Port = ""
+  From = ""
+  User = ""
+  Pass = ""
+[JWT]
+  PrivateKey = ""
+
+[Hubspot]
+  WebsiteID = ""
+  PortalID = ""
+  GitID = ""
